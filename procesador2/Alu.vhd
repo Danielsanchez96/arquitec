@@ -15,7 +15,7 @@ architecture Behavioral of ALU is
 
 begin
 
-process(dato1Alu,dato2Alu,operacionAlu ,carry)
+process(dato1Alu,dato2Alu,operacionAlu ,carry)-- X hace la operacion junto al acarreo, Xcc hace la operacion junto al acarreo y modifica el icc, CC  se ejecuta la operacion correspondiente y modifica el icc
 	begin
 		if (operacionAlu  = "000001") or (operacionAlu  = "001001") or (operacionAlu  = "010110") or (operacionAlu  = "010101") then      -- Add or Addcc
 			salidaAlu <= dato1Alu + dato2Alu;

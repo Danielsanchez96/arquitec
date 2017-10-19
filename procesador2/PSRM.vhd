@@ -22,7 +22,7 @@ process(AluOpcion,registro1,operador2,ResultadoAlu,reset)
 		
 	else		
 		if(AluOpcion = "001001" or AluOpcion = "001011")then --Addcc - Addxcc	
-			nzvc(3) <= ResultadoAlu(31);	
+			nzvc(3) <= ResultadoAlu(31);	   --Para saber si el resultado de la alu es un numero negativo entonces pone el bit n en 1 sino en 0
 			if(ResultadoAlu = X"00000000")then
 				nzvc(2) <= '1';
 			else
