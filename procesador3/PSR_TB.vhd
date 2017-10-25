@@ -5,48 +5,48 @@ USE ieee.std_logic_1164.ALL;
 -- arithmetic functions with Signed or Unsigned values
 --USE ieee.numeric_std.ALL;
  
-ENTITY tbPSR IS
-END tbPSR;
+ENTITY PSR_TB IS
+END PSR_TB;
  
-ARCHITECTURE behavior OF tbPSR IS 
+ARCHITECTURE behavior OF PSR_TB IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
     COMPONENT PSR
     PORT(
-         reset : IN  std_logic;
          clk : IN  std_logic;
-         salidaPSR : OUT  std_logic;
+         rst : IN  std_logic;
          nzvc : IN  std_logic_vector(3 downto 0);
-         ncwp : IN  std_logic;
-         cwp : OUT  std_logic
+         ncwp : IN  std_logic_vector(4 downto 0);
+         cwp : OUT  std_logic_vector(4 downto 0);
+         c : OUT  std_logic
         );
     END COMPONENT;
     
 
    --Inputs
-   signal reset : std_logic := '0';
    signal clk : std_logic := '0';
+   signal rst : std_logic := '0';
    signal nzvc : std_logic_vector(3 downto 0) := (others => '0');
-   signal ncwp : std_logic := '0';
+   signal ncwp : std_logic_vector(4 downto 0) := (others => '0');
 
  	--Outputs
-   signal salidaPSR : std_logic;
-   signal cwp : std_logic;
+   signal cwp : std_logic_vector(4 downto 0);
+   signal c : std_logic;
 
    -- Clock period definitions
-   constant clk_period : time := 10 ns;
+   constant clk_period : time := 20 ns;
  
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
    uut: PSR PORT MAP (
-          reset => reset,
           clk => clk,
-          salidaPSR => salidaPSR,
+          rst => rst,
           nzvc => nzvc,
           ncwp => ncwp,
-          cwp => cwp
+          cwp => cwp,
+          c => c
         );
 
    -- Clock process definitions
@@ -62,12 +62,23 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-      reset<='1';
-		ncwp<='0';
-		nzvc<="0101";
+      -- hold reset state for 100 ns.
+		rst <='1';
       wait for 100 ns;	
-		reset<='0';
-		ncwp<='1';
+		rst <='0';
+		
+		nzvc <="0001";
+		ncwp <="00001";
+		
+		wait for 11 ns;
+		nzvc <="0110";
+		ncwp <="00000";
+		
+		wait for 10 ns;
+		nzvc <="1100";
+		ncwp <="00000";
+      -- insert stimulus here 
+
       wait;
    end process;
 

@@ -1,22 +1,19 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
  
--- Uncomment the following library declaration if using
--- arithmetic functions with Signed or Unsigned values
---USE ieee.numeric_std.ALL;
+
+ENTITY ProcesadorSeis_TB IS
+END ProcesadorSeis_TB;
  
-ENTITY tbProcesador IS
-END tbProcesador;
- 
-ARCHITECTURE behavior OF tbProcesador IS 
+ARCHITECTURE behavior OF ProcesadorSeis_TB IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT Procesador
+    COMPONENT ProcesadorSeis
     PORT(
          clk : IN  std_logic;
          reset : IN  std_logic;
-         salidaAlu : OUT  std_logic_vector(31 downto 0)
+         Result : OUT  std_logic_vector(31 downto 0)
         );
     END COMPONENT;
     
@@ -26,21 +23,18 @@ ARCHITECTURE behavior OF tbProcesador IS
    signal reset : std_logic := '0';
 
  	--Outputs
-   signal salidaAlu : std_logic_vector(31 downto 0);
-	
-
-	
+   signal Result : std_logic_vector(31 downto 0);
 
    -- Clock period definitions
-   constant clk_period : time := 20 ns;
+   constant clk_period : time := 10 ns;
  
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: Procesador PORT MAP (
+   uut: ProcesadorSeis PORT MAP (
           clk => clk,
           reset => reset,
-          salidaAlu => salidaAlu
+          Result => Result
         );
 
    -- Clock process definitions
@@ -56,9 +50,15 @@ BEGIN
    -- Stimulus process
    stim_proc: process
    begin		
-      reset <= '1';
-      wait for 20 ns;	
-		reset <= '0'; 
+	wait for 10 ns;
+	reset <= '1';
+      -- hold reset state for 100 ns.
+      wait for 10 ns;
+	reset <= '0';		
+
+
+      -- insert stimulus here 
+
       wait;
    end process;
 

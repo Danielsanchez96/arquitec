@@ -1,41 +1,39 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_unsigned.all;
+
 
 entity DataMemory is
-    Port ( clk : in  STD_LOGIC;
-           reset : in  STD_LOGIC;
-           enableMem : in  STD_LOGIC;
-           writeEnable : in  STD_LOGIC;
-           aluResult : in  STD_LOGIC_VECTOR (31 downto 0);
-           CRD : in  STD_LOGIC_VECTOR (31 downto 0);
-           salidaDM : out  STD_LOGIC_VECTOR (31 downto 0));
+    Port ( cRD : in  STD_LOGIC_VECTOR (31 downto 0);
+           AluResult : in  STD_LOGIC_VECTOR (31 downto 0);
+           WRENMEM : in  STD_LOGIC;
+			  Reset : in STD_LOGIC;
+           DataMem : out  STD_LOGIC_VECTOR (31 downto 0));
 end DataMemory;
 
 architecture Behavioral of DataMemory is
 
-type ram_type is array (0 to 63) of std_logic_vector (31 downto 0);
-signal ramMemory : ram_type:=(others => x"00000000");
+type reg is array (0 to 519) of std_logic_vector (31 downto 0);
+signal myReg : reg := (others => x"00000000");
+signal Aux_DataMem: std_logic_vector (31 downto 0) := x"00000000";
 
 begin
 
-process(clk)
-begin
-	if(falling_edge(clk))then
-		if(enableMem = '1') then
-			if(reset = '1')then
-				salidaDM  <= (others => '0');
-				ramMemory <= (others => x"00000000");
-			else
-				if(writeEnable = '0')then
-					salidaDM  <= ramMemory(conv_integer(aluResult(5 downto 0)));
-				else
-					ramMemory(conv_integer(aluResult(5 downto 0))) <= CRD;
-				end if;
-			end if;
+process(cRD,AluResult,Reset,WRENMEM) begin
+	if (Reset = '1') then
+		myReg <= (others => x"00000000");
+	else 
+		if (WRENMEM = '1' and 520>AluResult) then
+			myReg(conv_integer(AluResult)) <= cRD;
+		end if;
+		if(520>AluResult) then
+			Aux_DataMem <= myReg(conv_integer(AluResult));
 		end if;
 	end if;
 end process;
+
+DataMem <= Aux_DataMem;
 
 end Behavioral;
 

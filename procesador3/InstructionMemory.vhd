@@ -1,19 +1,16 @@
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
-use IEEE.STD_LOGIC_UNSIGNED.ALL;
+use IEEE.numeric_std.all;
+use IEEE.std_logic_unsigned.all;
 use std.textio.all;
 
-
-
 entity InstructionMemory is
-	Port ( 
-			  address : in  STD_LOGIC_VECTOR (31 downto 0);
-           reset : in  STD_LOGIC;
-           outInstruction : out  STD_LOGIC_VECTOR (31 downto 0));
+    Port ( Address : in  STD_LOGIC_VECTOR (31 downto 0);
+           rst : in  STD_LOGIC;
+           Instruction : out  STD_LOGIC_VECTOR (31 downto 0));
 end InstructionMemory;
 
-architecture Behavioral of InstructionMemory is
+architecture arq_InstructionMemory of InstructionMemory is
 
 type rom_type is array (0 to 63) of std_logic_vector (31 downto 0);
 		
@@ -45,13 +42,13 @@ type rom_type is array (0 to 63) of std_logic_vector (31 downto 0);
 												  X"01000000", X"01000000", X"01000000", X"01000000");
 	
 	begin
-		process (reset, address)
+		process (rst, Address)
 			begin
-				if (reset = '1') then
-					outInstruction <= (others => '0');
+				if (rst = '1') then
+					Instruction <= (others => '0');
 				else
-					outInstruction <= instructions(conv_integer(address(5 downto 0)));--retorna en entero la posicion de la matriz
+					Instruction <= instructions(conv_integer(address(5 downto 0)));--retorna en entero la posicion de la matriz
 				end if;
 		end process;
-end Behavioral;
+end arq_InstructionMemory;
 
