@@ -2,14 +2,13 @@
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
-
-entity ProcesadorSeis is
-    Port ( clk : in  STD_LOGIC;
+entity procesador3 is
+	Port (clk : in  STD_LOGIC;
            reset : in  STD_LOGIC;
            Result : out  STD_LOGIC_VECTOR (31 downto 0));
-end ProcesadorSeis;
+end procesador3;
 
-architecture Behavioral of ProcesadorSeis is
+architecture Behavioral of procesador3 is
 
 component ProgramCounter
     Port ( Data : in  STD_LOGIC_VECTOR (31 downto 0);
@@ -338,9 +337,6 @@ MUXRFSC0 : MUXRFSC
 			  
 			  
 Result <= dwr_Out;
-			  
-
-
 
 end Behavioral;
 

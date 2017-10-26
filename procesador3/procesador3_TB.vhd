@@ -1,15 +1,15 @@
+
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
  
-
-ENTITY ProcesadorSeis_TB IS
-END ProcesadorSeis_TB;
+ENTITY procesador3_TB IS
+END procesador3_TB;
  
-ARCHITECTURE behavior OF ProcesadorSeis_TB IS 
+ARCHITECTURE behavior OF procesador3_TB IS 
  
     -- Component Declaration for the Unit Under Test (UUT)
  
-    COMPONENT ProcesadorSeis
+    COMPONENT procesador3
     PORT(
          clk : IN  std_logic;
          reset : IN  std_logic;
@@ -31,7 +31,7 @@ ARCHITECTURE behavior OF ProcesadorSeis_TB IS
 BEGIN
  
 	-- Instantiate the Unit Under Test (UUT)
-   uut: ProcesadorSeis PORT MAP (
+   uut: procesador3 PORT MAP (
           clk => clk,
           reset => reset,
           Result => Result
@@ -61,5 +61,4 @@ BEGIN
 
       wait;
    end process;
-
 END;
